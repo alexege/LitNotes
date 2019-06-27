@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-from .models import User, Note, Category, Subcategory
+from .models import User, Note, Category, Subcategory, Subcontent
 import bcrypt
 
 #Landing Page - Localhost:8000
@@ -12,6 +12,7 @@ def index(request):
         'list_of_categories' : Category.objects.all(), #not sure this is still in use
         'list_of_sub_categories' : Subcategory.objects.all(),
         'sub_categories' : Subcategory.objects.all(),
+        'subcontents' : Subcontent.objects.all(),
         # 'logged_in_user' : User.objects.
     }
 
@@ -24,19 +25,46 @@ def add_note(request):
     form_title = request.POST['note-title']
     form_category = request.POST['note-category']
     form_form = 1 #Not going to use this, will set it to default value of 1. Should remove completely, but will leave until later.
-    form_content = request.POST['form-content']
+    form_content = request.POST['form-content']  
 
     # Add note to db
-    Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
+    new_note = Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
+
+    print(new_note.id)
+
+    new_subcontent = Subcontent.objects.create(content=form_content, parent=new_note)
+
+    print(new_subcontent)
+
     return redirect('/dashboard')
 
 def append_note(request, id):
     print("[Localhost:8000/append_note/]---Appending a note to Note database---")
-    print(Note.objects.get(id=id).id)
     print(Note.objects.get(id=id).title)
     print(Note.objects.get(id=id).category)
+    print(Note.objects.get(id=id).content)
 
+    parent_object = Note.objects.get(id=id)
+    print(parent_object.id)
+    print(parent_object.title)
+
+    form_content = request.POST['new_subnote_text']
+    new_subcontent = Subcontent.objects.create(content=form_content, parent=parent_object)
+    print(new_subcontent)
+    
+    print(Note.objects.get(id=id).id)
     print(request.POST['new_subnote_text'])
+    
+
+
+
+    # Note.objects.get(id=id).add("Let's turn up")
+    # print(Note.objects.get(id=id)
+    # note = Note.objects.get(id=id)
+    # note.content.add("item")
+    # Note.objects.get(id=id).save()
+
+
     return redirect('/dashboard')
 
 #Add note from view
@@ -86,6 +114,12 @@ def delete_sub_category(request, id):
 def create_sub_category(request, id):
     print("[Localhost:8000/delete_category/]---Creating a subcategory in Subcategory database---")
     Subcategory.objects.create(name=request.POST['subcategory-name'], parent=Category.objects.get(id=id))
+    return redirect('/dashboard')
+
+#Delete SubContent
+def delete_subcontent(request, id):
+    print("[Localhost:8000/delete_subcontent/]---Delete a subcontent from Subcontent database---")
+    Subcontent.objects.filter(id=id).delete()
     return redirect('/dashboard')
 
 # def delete_note(request, id):

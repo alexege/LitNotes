@@ -19,8 +19,12 @@ class Category(models.Model):
     
 class Subcategory(models.Model):
     name = models.CharField(max_length=255)
-    # parent = models.CharField(max_length=255)
     parent = models.ForeignKey(Category, related_name="subcategories")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class Subcontent(models.Model):
+    content = models.TextField()
+    parent = models.ForeignKey(Note, related_name="subcontents")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

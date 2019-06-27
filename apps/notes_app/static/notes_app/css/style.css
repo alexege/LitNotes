@@ -5,15 +5,15 @@
 }
 
 html {
-  background-color: #1DB954;
+  background-color: var(--bg-color);
 }
 
 /* Light Mode */
 :root {
-  --primary-color: rgb(29,185,84,0.5);
+  --primary-color: rgb(29,185,84,0.6);
   --secondary-color: red;
   --font-color: #424242;
-  --bg-color: #fff;
+  --bg-color: white;
   --heading-color: #1DB954;
   --hover-color: white;
   --subcategory-color: orange;
@@ -36,16 +36,17 @@ body {
     background-color: #181818;
   }
   
-  .wrapper {
-    background-color: var(--bg-color);
-  }
-  
-  .master-container {
-    /* background: url(../images/light-honeycomb-dark.png); */
-    background: url(../images/asfalt-light.png);
-    /* background: url('https://picsum.photos/1920/1080/?blur'); */
-    height: 1000px;
+.wrapper {
+  background-color: var(--bg-color);
 }
+
+.master-container {
+  /* background: url(../images/light-honeycomb-dark.png); */
+  background: url(../images/asfalt-light.png);
+  /* background: url('https://picsum.photos/1920/1080/?blur'); */
+  height: 1000px;
+}
+
 
 
 /* Custom NavBar */
@@ -108,7 +109,8 @@ body {
 
 .toggle_a_tag {
     text-decoration: none; 
-    color: #1DB954;
+    /* color: #1DB954; */
+    color: var(--heading-color);
 }
 
 .new_note {
@@ -119,8 +121,30 @@ body {
   background-color: var(--primary-color);
 }
 
+.submit_button {
+  background-color: var(--heading-color);
+  border-radius: 5px;
+  border: 1px solid var(--heading-color);
+  /* color: var(--font-color); */
+  padding: 5px;
+  margin: 5px;
+}
+
+.submit_button:hover {
+  background-color: var(--bg-color);
+  border-radius: 5px;
+  border: 1px solid var(--bg-color);
+  /* color: var(--bg-color); */
+  padding: 5px;
+  margin: 5px;
+}
+
 .category_td select {
   margin: 0 auto;
+}
+
+.add_cat_button {
+  border: 1px solid var(--heading-color);
 }
 
 .selection {
@@ -153,21 +177,23 @@ body {
 
 .add_note a {
     padding: 10px 14px 10px 14px;
-    border: 2px solid #343a40;
-    background-color: var(--heading-color);
-    border-radius: 50%;
-    color: #343a40;
-}
-
-.add_note a:hover {
-    padding: 10px 14px 10px 14px;
     border: 2px solid var(--heading-color);
     background-color: var(--bg-color);
     border-radius: 50%;
     color: var(--heading-color);
 }
 
+.add_note a:hover {
+    padding: 10px 14px 10px 14px;
+    border: 2px solid var(--bg-color);
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    color: var(--bg-color);
+}
 
+.text_area {
+  margin-top: 15px;
+}
 
 /* Accordian  */
 .accordion {
@@ -194,7 +220,7 @@ body {
 }
 
 .panel-default {
-  padding: 0 18px;
+  padding: 0 56px;
   display: none;
   /* background-color: black; */
   /* background: rgb(66, 135, 245, 0.5); */
@@ -326,7 +352,7 @@ body {
 
 .categories-title{
   text-align: center;
-  color: #1DB954;
+  color: var(--heading-color);
 }
 
 .sidenav a {
@@ -404,7 +430,7 @@ position: relative;
 }
 
 input[type="text"], textarea {
-  border: 1px solid var(--bg-color);
+  border: 1px solid var(--heading-color);
   background-color: var(--bg-color);
   color: white;
 }
@@ -461,7 +487,7 @@ input[type="text"], textarea {
 }
 
 .slider:before {
-  background-color: #fff;
+  background-color: white;
   bottom: 4px;
   content: "";
   height: 26px;
@@ -472,7 +498,8 @@ input[type="text"], textarea {
 }
 
 input:checked + .slider {
-  background-color: #66bb6a;
+  /* background-color: #abafab; */
+  background-color: black;
 }
 
 input:checked + .slider:before {
@@ -580,6 +607,34 @@ html { -ms-overflow-style: none; }
 
 .notes_ul {
   margin-left: 40px;
+  font-size: 18px;
+}
+
+.notes_li {
+  margin-top: 10px;
+}
+
+.updated_at {
+  font-size: 12px;
+}
+
+ul li::before {
+  content: "\2022";
+  color: var(--font-color);
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
+}
+
+.notes_trashcan {
+  color: var(--font-color);
+  font-size: 10px;
+}
+
+.notes_trashcan:hover {
+  color: var(--hover-color);
+  font-size: 10px;
 }
 
 .note_button {
