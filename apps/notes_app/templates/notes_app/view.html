@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    
+
+    <!-- Dropdown menu -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <title>{{category}}/{{subcategory}}</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="master-container">
+<!-- Playing with random color generator -->
+<!-- <div id="colorpad" style="width: 200px; height: 200px; background-color: #000;"></div>
+<button onclick="setRandomColor()">Random Color</button> -->
+  
+  <!-- Logout Button -->
+  <a href="/logout">
+    <i class="fas fa-sign-out-alt logout"></i>
+  </a>
+
+  <!-- Side Navbar -->
+  <div id="mySidenav" class="sidenav">
+    <a href="/dashboard" class="home-button">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <h2 class="categories-title">Categories</h2>
+    <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+
+        <!-- Dynamically display categories -->
+        {% for category in list_of_categories %}
+        <div class="category">
+          <div class="category-left">
+
+            <!-- Testing out accordion -->
+            <div class="container">
+              <a href="#cat{{category.id}}" data-toggle="collapse">{{category.name}}</a>
+              <div id="cat{{category.id}}" class="collapse">
+                
+            <!-- Subcategories generated dynamically -->
+            {% for subcategory in sub_categories %}
+              {% if category.id == subcategory.parent.id %}
+                <div class="subcategory-container">
+                  <div class="left">
+                    <a href="/notes/view/{{category.name}}/{{subcategory.name}}">
+                      {{subcategory.name}}
+                    </a>
+                  </div>
+                  <div class="right">
+                    <a href="#">
+                      <div class="category-right">
+                        <a href="delete_sub_category/{{subcategory.id}}">
+                          <i class="fas fa-minus category-trashcan"></i>      
+                        </a>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+              <!-- Subcategory Add Form -->
+              <form action="/notes/create_sub_category/{{category.id}}" method="POST">
+                {% csrf_token %}
+                <div class="subcategory_add">
+                  <div class="left">
+                    <div class="input-group">
+                      <input type="text" class="form-control input-sm" placeholder="add subcategory" name="subcategory-name">
+                      <div class="input-group-btn">
+                        <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Trash Button -->
+        <div class="category-right">
+          <a href="delete_category/{{category.id}}">
+            <i class="far fa-trash-alt category-trashcan"></i>      
+          </a>
+        </div>
+        </a>
+      </div>
+      {% endfor %}
+      </form>
+
+
+  <!-- <div class="input-group">
+    <input type="text" class="form-control input-sm" placeholder="add category" name="search">
+    <div class="input-group-btn">
+      <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+    </div>
+  </div> -->
+
+  <!-- Category Add Form -->
+  <form action="/notes/add_category" method="POST">
+    {% csrf_token %}
+    <div class="subcategory_add">
+      <div class="left">
+        <div class="input-group">
+          <input type="text" class="form-control input-sm" placeholder="add subcategory" name="category-name">
+          <div class="input-group-btn">
+            <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  </div>
+    <div id="main">
+
+        <div class="toggle_side_nav">
+          <a href="#" onclick="openNav()" class="toggle_a_tag">
+            <div id="toggle_button">
+              <i class="far fa-eye" id="toggle_button"></i>
+            </div>
+          </a>
+        </div>
+
+        <div class="header">
+            <h1>Notes/{{category}}/{{subcategory}}</h1>
+        </div>
+
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#"><span class="spotify-green">LitNotes</span></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider">wfwf</div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Welcome to LitNotes, <span class="spotify-green">{{logged_in_user_obj.first_name}} {{logged_in_user_obj.last_name}}</span></a>
+                </li>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+
+        <!-- Notes -->
+        {% for note in list_of_category_notes %}
+        <button class="accordion">{{note.id}}. {{note.title}} {{note.created_at}}</button>
+          <div class="panel-default">
+            <div class="panel-content relative-container">
+              <p class="inline">{{note.content}}</p>
+              <p>Category: {{note.category}}</p>
+              <p>form: {{note.form}}</p>
+              <p>Created_at: {{note.created_at}}</p>
+              <p>Updated_at: {{note.updated_at}}</p>
+              <a href="delete_note/{{note.id}}"><i class="far fa-trash-alt inline trashcan"></i></a>
+            </div>     
+          </div>   
+        {% endfor %}
+
+      <!-- Create a new note -->
+      <button class="accordion">+ Add New Note</button>
+      <div class="panel-default">
+        <div class="panel-content">
+          <div>
+
+            <!-- Start -->
+            <div class="new_note">
+                <form action="/notes/add_note/{{category}}/{{subcategory}}" method="POST">
+                  {% csrf_token %}
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th class="note_header">Add a new Note</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <td>
+                        <input type="text" name="note-title">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <textarea rows="10" cols="5" name="form-content" class="form-control note-content" placeholder="Content"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Category
+                        <select name="note-category">
+                          <option value="All_Notes">All_Notes</option>
+                          {% for category in list_of_sub_categories %}
+                          <option value="{{category.name}}">{{category.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                          <div>
+                            <h3>Style/Format</h3>
+                            <label>
+                              <input type="checkbox" class="radio" value="1" name="note-form" />Var1</label>
+                            <label>
+                              <input type="checkbox" class="radio" value="1" name="note-form" />Var2</label>
+                            <label>
+                              <input type="checkbox" class="radio" value="1" name="note-form" />Var3</label>
+                          </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                          <input type="radio" name="radio_answer" value="Big" />Big
+                          <input type="radio" name="radio_answer" value="Medium" />Medium
+                          <input type="radio" name="radio_answer" value="Small" />Small
+                          <input type="radio" name="radio_answer" value="Standard"/>Standard
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button class="btn btn-success">Submit</button>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+            <!-- End -->
+
+          </div>
+        </div>     
+      </div>
+
+      <!-- Add a note category button-->
+      <div class="add_note">
+          <a href="/notes/">
+            <i class="fas fa-sticky-note" ></i>
+          </a>
+      </div>
+
+      <!-- <button class="accordion">Section 1</button>
+      <div class="panel">
+        <p>Empty for now</p>
+      </div>
+      <div class="add_note">
+          <a href="/add_note">
+            <i class="fas fa-sticky-note"></i>
+          </a>
+      </div> -->
+
+      <!-- <h2>Sidenav Push Example</h2>
+      <p>Click on the element below to open the side navigation menu, and push this content to the right.</p> -->
+      <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+    </div>
+</div>
+</div>
+<script>
+
+// // Random color generator
+// function getRandomColor() {
+//   var letters = '0123456789ABCDEF';
+//   var color = '#';
+//   for (var i = 0; i < 6; i++) {
+//     color += letters[Math.floor(Math.random() * 16)];
+//   }
+//   return color;
+// }
+// function setRandomColor() {
+//   $("#colorpad").css("background-color", getRandomColor());
+// }
+
+// accordion javascript
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+
+
+//Side Nav Script
+var toggle = true;
+function openNav() {
+  if (toggle){
+    document.getElementById("toggle_button").innerHTML='<i class="far fa-eye-slash" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    toggle = false;
+  } else {
+    document.getElementById("toggle_button").innerHTML='<i class="far fa-eye" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    toggle = true;
+  }
+}
+</script>     
+</body>
+</html>

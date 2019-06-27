@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+  
+    <!-- Bootstrap 4 javascript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <title>Successful Login</title>
+</head>
+<body>
+
+  <div class="wrapper">
+<div class="master-container">
+<!-- Playing with random color generator -->
+<!-- <div id="colorpad" style="width: 200px; height: 200px; background-color: #000;"></div>
+<button onclick="setRandomColor()">Random Color</button> -->
+  
+  <!-- Logout Button -->
+  <a href="/logout">
+    <!-- <i class="fas fa-sign-out-alt logout"></i> -->
+    <i class="fas fa-door-open logout"></i>
+  </a>
+
+  <!-- Side Navbar -->
+  <div id="mySidenav" class="sidenav">
+    <h2 class="categories-title">Categories</h2>
+    <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+  
+        <!-- Dynamically display categories -->
+        {% for category in list_of_categories %}
+        <div class="category">
+          <div class="category-left">
+
+            <!-- Testing out accordion -->
+            <div class="container">
+              <a href="#cat{{category.id}}" data-toggle="collapse">{{category.name}}</a>
+              <div id="cat{{category.id}}" class="collapse">
+                
+            <!-- Subcategories generated dynamically -->
+            {% for subcategory in sub_categories %}
+              {% if category.id == subcategory.parent.id %}
+                <div class="subcategory-container">
+                  <div class="left">
+                    <a href="/notes/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
+                  </div>
+                  <div class="right">
+                    <!-- <a href="#"> -->
+                      <!-- <div class="category-right"> -->
+                        <a href="delete_sub_category/{{subcategory.id}}">
+                          <!-- <i class="fas fa-minus category-trashcan"></i>       -->
+                          <i class="fas fa-ban delete-item"></i>
+                        <!-- </a> -->
+                      <!-- </div> -->
+                    </a>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+              <!-- Subcategory Add Form -->
+              <form action="/notes/create_sub_category/{{category.id}}" method="POST">
+                {% csrf_token %}
+                <div class="subcategory_add">
+                  <div class="left">
+                    <div class="input-group">
+                      <input type="text" class="form-control form-control-sm" placeholder="add subcategory" name="subcategory-name">
+                      <div class="input-group-btn">
+                        <button type="submit" class="btn btn-sm add_button"><i class="fas fa-plus-circle"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Trash Button -->
+        <div class="category-right">
+          <a href="delete_category/{{category.id}}">
+            <i class="far fa-trash-alt category-trashcan"></i>      
+          </a>
+        </div>
+        </a>
+      </div>
+      {% endfor %}
+      </form>
+
+
+  <!-- <div class="input-group">
+    <input type="text" class="form-control input-sm" placeholder="add category" name="search">
+    <div class="input-group-btn">
+      <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+    </div>
+  </div> -->
+
+  <!-- Category Add Form -->
+  <form action="/notes/add_category" method="POST">
+    {% csrf_token %}
+    <div class="subcategory_add">
+      <div class="left">
+        <div class="input-group">
+          <input type="text" class="form-control form-control-sm" placeholder="add subcategory" name="category-name">
+          <div class="input-group-btn">
+            <button class="btn btn-sm" style="border: 1px solid red;" type="submit">
+                <i class="fas fa-plus-circle add_button"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  </div>
+  
+  <div class="header">
+    <h1>All Notes</h1>
+  </div>
+  <div id="main">
+    
+    <!-- Toggle Sidebar -->
+      <a href="#" onclick="openNav()" class="toggle_a_tag">
+        <div id="toggle_button" class="toggle_eye">
+          <!-- <i class="far fa-eye toggle_side_nav" id="toggle_button"></i> -->
+          <i class="fas fa-chevron-right" id="toggle_button"></i>
+        </div>
+      </a>
+
+      <!-- Top Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+          <a class="navbar-brand" href="/notes">Lit Notes</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Toggle Switch Start -->
+          <div class="switch-box-container">
+          <div class="switch-box">
+              <label class="theme-switch" for="checkbox">
+                  <input type="checkbox" id="checkbox"/>
+                  <div class="slider round"></div>
+              </label>
+          </div>
+        </div>
+      </nav>
+
+        <!-- Notes -->
+        {% for note in list_of_all_notes %}
+        <a href="delete_note/{{note.id}}" class="right"><i class="far fa-trash-alt inline trashcan-note"></i></a>
+        <div class="accordion">{{note.title}}
+        </div>
+          <div class="panel-default">
+            <div class="panel-content relative-container">
+              <p class="inline">{{note.content}}</p>
+              <!-- <a href="delete_note/{{note.id}}"><i class="far fa-trash-alt inline trashcan"></i></a> -->
+            </div>     
+          </div>   
+        {% endfor %}
+
+      <!-- Create a new note -->
+      <!-- <button class="accordion">+ Add New Note</button> -->
+      <!-- <div class="panel-default"> -->
+        <!-- <div class="panel-content"> -->
+          <!-- <div> -->
+
+            <!-- Start -->
+            <!-- <div class="new_note"  style="display: none;"> -->
+                <form action="/notes/add_note" method="POST" id="toggle_new_note" class="add_notes_table_container">
+                  {% csrf_token %}
+                  <table class="table table-hover add_notes_table">
+                    <tr>
+                      <td>
+                        <!-- <label for="note-title">Title</label> -->
+                        <input type="text" id="note-title" name="note-title" placeholder="Title">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <textarea rows="10" cols="5" name="form-content" class="form-control note-content" placeholder="Content"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="category_td">
+                        <h5>Category</h5>
+                        <select name="note-category" class="form-control selection">
+                          <option value="All_Notes">All_Notes</option>
+                          {% for category in list_of_sub_categories %}
+                          <option value="{{category.name}}">{{category.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button class="btn btn-success">Submit</button>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              <!-- </div> -->
+            <!-- End -->
+
+          <!-- </div> -->
+        <!-- </div>      -->
+      <!-- </div> -->
+
+      <!-- Add a note category button-->
+      <div class="add_note">
+          <a href="#" onclick="toggle_new_note()">
+            <i class="fas fa-sticky-note" ></i>
+          </a>
+      </div>
+
+      <!-- <button class="accordion">Section 1</button>
+      <div class="panel">
+        <p>Empty for now</p>
+      </div>
+      <div class="add_note">
+          <a href="/add_note">
+            <i class="fas fa-sticky-note"></i>
+          </a>
+      </div> -->
+
+      <!-- <h2>Sidenav Push Example</h2>
+      <p>Click on the element below to open the side navigation menu, and push this content to the right.</p> -->
+      <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+
+    </div>
+  </div>
+    
+<script>
+
+
+// Toggle add note button
+function toggle_new_note() {
+var x = document.getElementById("toggle_new_note");
+if (x.style.display === "block") {
+  x.style.display = "none";
+} else {
+  x.style.display = "block";
+}
+  // document.getElementById('title_input').focus();
+}
+
+// Toggle Dark/Light Mode
+const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    }
+    else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+
+//Add
+const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+}
+
+
+// // Random color generator
+// function getRandomColor() {
+//   var letters = '0123456789ABCDEF';
+//   var color = '#';
+//   for (var i = 0; i < 6; i++) {
+//     color += letters[Math.floor(Math.random() * 16)];
+//   }
+//   return color;
+// }
+// function setRandomColor() {
+//   $("#colorpad").css("background-color", getRandomColor());
+// }
+
+// accordion javascript
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+
+//Side Nav Script
+var toggle = true;
+function openNav() {
+  if (toggle){
+    document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    toggle = false;
+  } else {
+    document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    toggle = true;
+  }
+}
+</script>     
+</div>
+</body>
+</html>
