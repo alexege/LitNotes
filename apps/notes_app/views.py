@@ -30,6 +30,15 @@ def add_note(request):
     Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
     return redirect('/dashboard')
 
+def append_note(request, id):
+    print("[Localhost:8000/append_note/]---Appending a note to Note database---")
+    print(Note.objects.get(id=id).id)
+    print(Note.objects.get(id=id).title)
+    print(Note.objects.get(id=id).category)
+
+    print(request.POST['new_subnote_text'])
+    return redirect('/dashboard')
+
 #Add note from view
 def add_note_from_view(request, category, subcategory):
     print("[Localhost:8000/add_note_from_view/]---Adding a note from a view and redirecting to view note page---")

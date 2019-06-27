@@ -18,7 +18,12 @@
 </head>
 <body>
 
-  <div class="wrapper">
+{{list_of_all_notes}}
+{{list_of_all_notes.id}}
+{{list_of_all_notes.content}}
+{{list_of_all_notes.category}}
+
+<div class="wrapper">
 <div class="master-container">
 <!-- Playing with random color generator -->
 <!-- <div id="colorpad" style="width: 200px; height: 200px; background-color: #000;"></div>
@@ -153,18 +158,32 @@
         </div>
       </nav>
 
-        <!-- Notes -->
-        {% for note in list_of_all_notes %}
-        <a href="delete_note/{{note.id}}" class="right"><i class="far fa-trash-alt inline trashcan-note"></i></a>
-        <div class="accordion">{{note.title}}
-        </div>
-          <div class="panel-default">
-            <div class="panel-content relative-container">
-              <p class="inline">{{note.content}}</p>
-              <!-- <a href="delete_note/{{note.id}}"><i class="far fa-trash-alt inline trashcan"></i></a> -->
-            </div>     
-          </div>   
-        {% endfor %}
+    <!-- Compact Notes -->
+    {% for note in list_of_all_notes %}
+    <a href="#" class="note_button" style="display: block;" data-toggle="collapse" data-target="#demo{{note.id}}">{{note.title}}</a>
+    <div id="demo{{note.id}}" class="collapse">
+      <ul class="notes_ul">
+        <li>{{note.content}}</li>
+        <form action="append_note/{{note.id}}" method="POST">
+          {% csrf_token %}
+          <textarea name="new_subnote_text" style="border: 1px solid black; color: black;"></textarea>
+          <button>+</button>
+        </form>
+      </ul>
+    </div>
+    {% endfor %}
+
+    <!-- Hamburger Notes -->
+    {% for note in list_of_all_notes %}
+    <a href="delete_note/{{note.id}}" class="right"><i class="far fa-trash-alt inline trashcan-note"></i></a>
+    <div class="accordion">{{note.title}}
+    </div>
+      <div class="panel-default">
+        <div class="panel-content relative-container">
+          <p class="inline">{{note.content}}</p>
+        </div>     
+      </div>   
+    {% endfor %}
 
       <!-- Create a new note -->
       <!-- <button class="accordion">+ Add New Note</button> -->

@@ -577,3 +577,16 @@ html { -ms-overflow-style: none; }
 ::-ms-input-placeholder { /* Microsoft Edge */
  color: var(--heading-color);
 }
+
+.notes_ul {
+  margin-left: 40px;
+}
+
+.note_button {
+  padding: 0 10px 0 10px;
+  border: 1px solid #1DB954;
+  width: 400px;
+  /* background: none; */
+  /* background-color: white; */
+  /* border: 1px solid #1DB954; */
+}

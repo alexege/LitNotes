@@ -23,3 +23,4 @@ class Subcategory(models.Model):
     parent = models.ForeignKey(Category, related_name="subcategories")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
