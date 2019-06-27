@@ -6,6 +6,10 @@ from .models import User
 import bcrypt
 from datetime import datetime, timedelta
 
+# Public Page: Localhost:8000/public
+def public(request): 
+    return render(request, 'login_app/public.html')
+
 # Landing Page: Localhost:8000/
 def index(request):
     context = {

@@ -1,0 +1,51 @@
+.bg{
+    background-image: url("../images/Notes.jpg");
+    height:800px;
+    /* width: 900px; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    position: relative;
+    display: inline-block;
+
+}
+
+.invisible{
+    padding-top:70px;
+}
+.border_box{
+    height: 80%;
+    width: 90%;
+    border: 5px solid #1c7731;
+    margin: 0 auto;
+}
+
+.center{
+    margin: 145px 285px 0px 45px;
+    background-color: white;
+    padding:30px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 60px;
+}
+
+.honey{
+    padding-left:55px;
+}
+
+.side_log_container{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 100px;
+}
+.move{
+    margin-left:55px;
+}   
+
+.side{
+    display: inline-block;
+    border-left: 30px solid black;
+}
+.messages{
+    width: 280px;
+    margin-right:10px;
+}

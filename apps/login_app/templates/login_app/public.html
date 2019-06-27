@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Public Litnotes</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'login_app/css/style2.css' %}">
+</head>
+<body>
+    <!-- Background Picture -->
+    <div class="bg">
+        <div class="invisible"></div>
+        <div class="border_box">
+            <div class="center">
+                <div class="honey">
+                    <h1 class="text-dark">We believe </h1>
+                    <h1 class="text-dark">in notes,</h1>
+                    <h1 class="text-dark">that's why </h1>
+                    <h1 class="text-dark">we got litnotes.</h1> 
+                </div>
+                <a class="btn btn-success move"href="/public">Register Now!</a>
+            </div>
+        </div>
+    </div>
+    <div class="side"></div>
+    <!-- Login -->
+    <div class="side_log_container">
+        <div class="login-block">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <table class="login-table">
+                    <tr>
+                        <td colspan=2>
+                            <h3 class="title">Login Here!</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Enter your email address here">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password</label>
+                        </td>
+                        <td>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password here">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <button class="btn btn-success">Login Now!</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <!-- Validation Check -->
+            <div class='small'>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <p{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
