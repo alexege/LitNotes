@@ -5,9 +5,11 @@ import bcrypt
 
 #Landing Page - Localhost:8000
 def index(request):
+    #Check if user in session, else redirect to login page.
     print("[Localhost:8000/]---Index Page---")
 
     context = {
+        'current_user' : User.objects.get(id=request.session['active_user']),
         'list_of_all_notes' : Note.objects.all(),
         'list_of_categories' : Category.objects.all(), #not sure this is still in use
         'list_of_sub_categories' : Subcategory.objects.all(),
@@ -54,18 +56,13 @@ def append_note(request, id):
     
     print(Note.objects.get(id=id).id)
     print(request.POST['new_subnote_text'])
-    
-
-
-
-    # Note.objects.get(id=id).add("Let's turn up")
-    # print(Note.objects.get(id=id)
-    # note = Note.objects.get(id=id)
-    # note.content.add("item")
-    # Note.objects.get(id=id).save()
-
-
     return redirect('/dashboard')
+
+def append_note_from_view(request, category, subcategory, id):
+    parent_object = Note.objects.get(id=id)
+    form_content = request.POST['new_subnote_text']
+    new_subnote = Subcontent.objects.create(content=form_content, parent=parent_object)
+    return redirect('/notes/view/' + category + '/' + subcategory)
 
 #Add note from view
 def add_note_from_view(request, category, subcategory):
@@ -76,7 +73,12 @@ def add_note_from_view(request, category, subcategory):
     form_content = request.POST['form-content']
     
     # Add note to db
-    Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
+    new_note = Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
+
+    #Added LKQ@$JL@$J@$K
+    form_content=request.POST['form-content']
+    Subcontent.objects.create(content=form_content, parent=new_note)
+
     return redirect('/notes/view/' + category + '/' + subcategory)
 
 #Update Note
@@ -91,6 +93,13 @@ def delete_note(request, id):
     # Category.objects.filter(id=id).delete()
     return redirect('/dashboard')
 
+#Delete Note From View
+def delete_note_from_view(request, category, subcategory, id):
+    print("[Localhost:8000/delete_note/]---Deleting a note in the Note database---")
+    Note.objects.filter(id=id).delete()
+    # Category.objects.filter(id=id).delete()
+    return redirect('/notes/view/' + category + '/' + subcategory)
+
 #New Category
 def add_category(request):
     print("[Localhost:8000/add_category/]---Adding a category to Category database---")
@@ -98,7 +107,14 @@ def add_category(request):
     print(type(newCategory.id))
     return redirect('/dashboard')
 
-#Delete Category
+#New Category
+def add_category_from_view(request, category, subcategory):
+    print("[Localhost:8000/add_category/]---Adding a category to Category database from view page---")
+    newCategory = Category.objects.create(name=request.POST['category-name'])
+    print(type(newCategory.id))
+    return redirect('/notes/view/' + category + '/' + subcategory)
+
+
 def delete_category(request, id):
     print("[Localhost:8000/delete_category/]---Delete a category from Category database---")
     Category.objects.filter(id=id).delete()
@@ -116,11 +132,23 @@ def create_sub_category(request, id):
     Subcategory.objects.create(name=request.POST['subcategory-name'], parent=Category.objects.get(id=id))
     return redirect('/dashboard')
 
+#Add SubCategory from view
+def create_subcategory_from_view(request, category, subcategory, id):
+    print("[Localhost:8000/delete_category/]---Creating a subcategory in Subcategory database---")
+    Subcategory.objects.create(name=request.POST['subcategory-name'], parent=Category.objects.get(id=id))
+    return redirect('/notes/view/' + category + '/' + subcategory)
+
 #Delete SubContent
 def delete_subcontent(request, id):
     print("[Localhost:8000/delete_subcontent/]---Delete a subcontent from Subcontent database---")
     Subcontent.objects.filter(id=id).delete()
     return redirect('/dashboard')
+
+#Delete SubContent from view
+def delete_subcontent_from_view(request, category, subcategory, id):
+    print("[Localhost:8000/delete_subcontent_from_view/]---Delete a subcontent from Subcontent database---")
+    Subcontent.objects.filter(id=id).delete()
+    return redirect('/notes/view/' + category + '/' + subcategory)
 
 # def delete_note(request, id):
 #     print("[Localhost:8000/delete_note/]---Delete a note from Note database---")
@@ -135,11 +163,13 @@ def view_sub_category(request, category, subcategory):
         'notes' : Note.objects.all(),
         'category' : category,
         'subcategory' : subcategory,
+        'current_user': User.objects.get(id=request.session['active_user']),
         #Update below with any changes made to homepage
         'list_of_category_notes' : Note.objects.all().filter(category=subcategory),
         'list_of_sub_categories' : Subcategory.objects.all(),
         'list_of_categories' : Category.objects.all(),
         'sub_categories' : Subcategory.objects.all(),
+        'subcontents' : Subcontent.objects.all(),
     }
     # print(category)
     # print(subcategory)

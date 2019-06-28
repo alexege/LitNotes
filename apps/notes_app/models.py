@@ -5,7 +5,7 @@ class Note(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     form = models.CharField(max_length=255)
-    content = models.TextField()
+    content = models.TextField() #Should likely remove this
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
