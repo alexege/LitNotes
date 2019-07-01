@@ -5,113 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'login_app/css/Log.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{% static 'login_app/css/Log.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <title>Login/Registration</title>
 </head>
 <body>
-    <div class="wrapper">
-    <!-- Go Back to Public Page -->
-    <a class="back" href="/">
-        <i class="fas fa-sign-out-alt logout"></i>
-    </a>
-    <div class="container">
-        <h1 class="title">LITNOTES Register Page!</h1>
+    <div class="login-container">
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            <table class="registration-table ">
+                <tr>
+                    <td colspan=2>
+                        <h3 class="title">Registration</h3>
+                    </td>
+                </tr>    
+                <tr>
+                    <td>
+                        <label for="first_name">First Name</label>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Enter your first name here.">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="last_name">Last Name</label>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Enter your last name here.">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email</label>
+                    </td>
+                    <td>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="Enter your email here.">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">Password</label>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password here.">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="confirmation_password">Confirm Password</label>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" name="confirmation_password" id="confirmation_password" placeholder="Enter your confirmation password here.">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=2>
+                        <button class="btn btn-success">Register</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
 
-        <div class="sibs">
-            <!-- Registration Form -->
-            <div class="registration-block sibs">
-                <form action="/register" method="POST">
-                    {% csrf_token %}
-                    <table class="registration-table ">
-                        <tr>
-                            <td colspan=2>
-                                <h3 class="title">Registration</h3>
-                            </td>
-                        </tr>    
-                        <tr>
-                            <td>
-                                <label for="first_name">First Name</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Enter your first name here.">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="last_name">Last Name</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Enter your last name here.">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="email">Email</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="email" name="email" id="email" placeholder="Enter your email here.">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="password">Password</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password here.">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="confirmation_password">Confirm Password</label>
-                            </td>
-                            <td>
-                                <input class="form-control" type="password" name="confirmation_password" id="confirmation_password" placeholder="Enter your confirmation password here.">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan=2>
-                                <button class="btn btn-success">Register</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-
-                <!-- Validation Check -->
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</p>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
-            <!-- Registered Users -->
-        <div class="users_container">
-            <div>
-                <h3 class="title">Registered Users</h3>
-                <table class="table .custom_nav">
-                    <thead class="thead thead-dark">
-                        <tr>
-                            <!-- <th class="text-success">ID</th> -->
-                            <th class="text-success">First Name</th>
-                            <th class="text-success">Last Name</th>
-                            <!-- <th class="text-success">Email</th> -->
-                        </tr>
-                    </thead>
-                    {% for user in logged_in_users %}
-                    <tr>
-                        <!-- <td>{{user.id}}</td> -->
-                        <td>{{user.first_name}}</td>
-                        <td>{{user.last_name}}</td>
-                        <!-- <td>{{user.email}}</td> -->
-                    </tr>
-                    {% endfor %}
-                </table>    
-            </div>
-        </div>
+        <!-- Validation Check -->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </ul>
+        {% endif %}
     </div>
+</div>
 </div>
 </body>
 </html>
