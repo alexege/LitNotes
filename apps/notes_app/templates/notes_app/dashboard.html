@@ -26,24 +26,22 @@
   
   <!-- Logout Button -->
   <a href="/logout">
-    <!-- <i class="fas fa-sign-out-alt logout"></i> -->
     <i class="fas fa-door-open logout"></i>
   </a>
 
   <!-- Side Navbar -->
   <div id="mySidenav" class="sidenav">
     <h2 class="categories-title">Categories</h2>
-    <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
   
-        <!-- Dynamically display categories -->
-        {% for category in list_of_categories %}
-        <div class="category">
-          <div class="category-left">
+      <!-- Dynamically display categories -->
+      {% for category in list_of_categories %}
+      <div class="category">
+        <div class="category-left">
 
-            <!-- Testing out accordion -->
-            <div class="container">
-              <a href="#cat{{category.id}}" data-toggle="collapse">{{category.name}}</a>
-              <div id="cat{{category.id}}" class="collapse">
+        <!-- Accordion -->
+        <div class="container">
+          <a href="#cat{{category.id}}" data-toggle="collapse">{{category.name}}</a>
+          <div id="cat{{category.id}}" class="collapse">
                 
             <!-- Subcategories generated dynamically -->
             {% for subcategory in sub_categories %}
@@ -53,56 +51,42 @@
                     <a href="/notes/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
                   </div>
                   <div class="right">
-                    <!-- <a href="#"> -->
-                      <!-- <div class="category-right"> -->
-                        <a href="delete_sub_category/{{subcategory.id}}">
-                          <!-- <i class="fas fa-minus category-trashcan"></i>       -->
-                          <i class="fas fa-ban delete-item"></i>
-                        <!-- </a> -->
-                      <!-- </div> -->
+                    <a href="delete_sub_category/{{subcategory.id}}">
+                      <i class="fas fa-ban delete-item"></i>
                     </a>
                   </div>
                 </div>
               {% endif %}
             {% endfor %}
 
-              <!-- Subcategory Add Form -->
-              <form action="/notes/create_sub_category/{{category.id}}" method="POST">
-                {% csrf_token %}
-                <div class="subcategory_add">
-                  <div class="left">
-                    <div class="input-group">
-                      <input type="text" class="form-control form-control-sm" placeholder="add subcategory" name="subcategory-name">
-                      <div class="input-group-btn">
-                        <button type="submit" class="btn btn-sm add_cat_button"><i class="fas fa-plus-circle"></i></button>
-                      </div>
+            <!-- Subcategory Add Form -->
+            <form action="/notes/create_sub_category/{{category.id}}" method="POST">
+              {% csrf_token %}
+              <div class="subcategory_add">
+                <div class="left">
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" placeholder="add subcategory" name="subcategory-name">
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-sm add_cat_button"><i class="fas fa-plus-circle"></i></button>
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
+            </form>
 
-            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Category Trash Button -->
-        <div class="category-right">
-          <a href="delete_category/{{category.id}}">
-            <i class="far fa-trash-alt category-trashcan"></i>      
-          </a>
-        </div>
+      <!-- Category Trash Button -->
+      <div class="category-right">
+        <a href="delete_category/{{category.id}}">
+          <i class="far fa-trash-alt category-trashcan"></i>      
         </a>
       </div>
-      {% endfor %}
-      </form>
-
-
-  <!-- <div class="input-group">
-    <input type="text" class="form-control input-sm" placeholder="add category" name="search">
-    <div class="input-group-btn">
-      <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
     </div>
-  </div> -->
+    {% endfor %}
+  </form>
 
   <!-- Category Add Form -->
   <form action="/notes/add_category" method="POST">
@@ -113,7 +97,7 @@
           <input type="text" class="form-control form-control-sm" placeholder="add category" name="category-name">
           <div class="input-group-btn">
             <button class="btn btn-sm add_cat_button" type="submit">
-                <i class="fas fa-plus-circle add_button"></i>
+              <i class="fas fa-plus-circle add_button"></i>
             </button>
           </div>
         </div>
@@ -121,7 +105,7 @@
     </div>
   </form>
 
-  </div>
+  </div>  <!--End Side Navbar-->
   
   <div class="header">
     <h1>All Notes</h1>
@@ -131,20 +115,20 @@
     <!-- Toggle Sidebar -->
       <a href="#" onclick="openNav()" class="toggle_a_tag">
         <div id="toggle_button" class="toggle_eye">
-          <!-- <i class="far fa-eye toggle_side_nav" id="toggle_button"></i> -->
           <i class="fas fa-chevron-right" id="toggle_button"></i>
         </div>
       </a>
 
       <!-- Top Navbar -->
       <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-          <a class="navbar-brand" href="/notes">Notes</a>
-          <h4 class="welcome">Welcome, {{current_user.first_name}}</h4>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <!-- Toggle Switch Start -->
-          <div class="switch-box-container">
+        <a class="navbar-brand" href="/notes">Notes</a>
+        <h4 class="welcome">Welcome, {{current_user.first_name}}</h4>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Toggle Switch Start -->
+        <div class="switch-box-container">
           <div class="switch-box">
               <label class="theme-switch" for="checkbox">
                   <input type="checkbox" id="checkbox"/>
@@ -154,7 +138,7 @@
         </div>
       </nav>
 
-    <!-- Hamburger Notes -->
+    <!-- Collapsible Notes -->
     {% for note in list_of_all_notes %}
     <a href="delete_note/{{note.id}}" class="right"><i class="far fa-trash-alt inline trashcan-note"></i></a>
     <div class="accordion">
@@ -162,97 +146,70 @@
     </div>
       <div class="panel-default">
         <div class="panel-content relative-container">
-          <!-- start -->
+
+          <!-- Generate Subcontents -->
           <ul class="notes_ul">
-              {% for category in subcontents %}
-                {% if category.parent.id == note.id %}
+            {% for category in subcontents %}
+              {% if category.parent.id == note.id %}
                 <li class="notes_li">
                   {{category.content}} 
                   <a href="delete_subcontent/{{category.id}}"><i class="far fa-trash-alt notes_trashcan"></i></a>
                 </li>
-                {% endif %}
-              {% endfor %}
-              <form action="append_note/{{note.id}}" method="POST">
-                {% csrf_token %}
-                <textarea class="form-control text_area" rows="5" name="new_subnote_text"></textarea>
-                <button class="submit_button">Add Note</button>
-              </form>
-            </ul>
-          <!-- end -->
+              {% endif %}
+            {% endfor %}
+            <form action="append_note/{{note.id}}" method="POST">
+              {% csrf_token %}
+              <textarea class="form-control text_area" rows="5" name="new_subnote_text"></textarea>
+              <button class="submit_button">Add Note</button>
+            </form>
+          </ul>
+
         </div>     
       </div>   
     {% endfor %}
 
-      <!-- Create a new note -->
-      <!-- <button class="accordion">+ Add New Note</button> -->
-      <!-- <div class="panel-default"> -->
-        <!-- <div class="panel-content"> -->
-          <!-- <div> -->
-
-            <!-- Start -->
-            <!-- <div class="new_note"  style="display: none;"> -->
-                <form action="/notes/add_note" method="POST" id="toggle_new_note" class="add_notes_table_container">
-                  {% csrf_token %}
-                  <table class="table table-hover add_notes_table">
-                    <tr>
-                      <td>
-                        <!-- <label for="note-title">Title</label> -->
-                        <input type="text" id="note-title" name="note-title" placeholder="Title">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <textarea rows="10" cols="5" name="form-content" class="form-control note-content" placeholder="Content"></textarea>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="category_td">
-                        <h5>Category</h5>
-                        <select name="note-category" class="form-control selection">
-                          <option value="all">all</option>
-                          {% for category in list_of_sub_categories %}
-                          <option value="{{category.name}}">{{category.name}}</option>
-                          {% endfor %}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <button class="submit_button">Submit</button>
-                      </td>
-                    </tr>
-                  </table>
-                </form>
-              <!-- </div> -->
-            <!-- End -->
-
-          <!-- </div> -->
-        <!-- </div> -->
-      <!-- </div> -->
-
-      <!-- Add a note category button-->
-      <div class="add_note">
-          <a href="#" onclick="toggle_new_note()">
-            <i class="fas fa-sticky-note" ></i>
-          </a>
-      </div>
-
-      <!-- <button class="accordion">Section 1</button>
-      <div class="panel">
-        <p>Empty for now</p>
-      </div>
-      <div class="add_note">
-          <a href="/add_note">
-            <i class="fas fa-sticky-note"></i>
-          </a>
-      </div> -->
-
-      <!-- <h2>Sidenav Push Example</h2>
-      <p>Click on the element below to open the side navigation menu, and push this content to the right.</p> -->
-      <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
-
+    <!-- Create a new note -->
+    <form action="/notes/add_note" method="POST" id="toggle_new_note" class="add_notes_table_container">
+      {% csrf_token %}
+      <table class="table table-hover add_notes_table">
+        <tr>
+          <td>
+            <input type="text" id="note-title" name="note-title" placeholder="Title">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <textarea rows="10" cols="5" name="form-content" class="form-control note-content" placeholder="Content"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="category_td">
+            <h5>Category</h5>
+            <select name="note-category" class="form-control selection">
+              <option value="all">all</option>
+              {% for category in list_of_sub_categories %}
+              <option value="{{category.name}}">{{category.name}}</option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button class="submit_button">Submit</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+           
+    <!-- Add a note category button-->
+    <div class="add_note">
+        <a href="#" onclick="toggle_new_note()">
+          <i class="fas fa-sticky-note" ></i>
+        </a>
     </div>
+
   </div>
+</div>
     
 <script>
 
@@ -293,7 +250,6 @@ if (currentTheme) {
         toggleSwitch.checked = true;
     }
 }
-
 
 // Random color generator
 function getRandomColor() {

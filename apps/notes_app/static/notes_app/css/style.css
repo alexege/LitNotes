@@ -41,45 +41,9 @@ body {
 }
 
 .master-container {
-  /* background: url(../images/light-honeycomb-dark.png); */
   background: url(../images/asfalt-light.png);
-  /* background: url('https://picsum.photos/1920/1080/?blur'); */
   height: 1000px;
 }
-
-
-
-/* Custom NavBar */
-.custom_nav{
-  background-color: var(--primary-color);
-  /* border: 1px solid var(--secondary-color); */
-  height: 5rem;
-  text-align: center;
-  position: relative;
-}
-
-.custom_nav h3 {
-  margin-top: 0px;
-  padding: 10px;
-  display: inline-block;
-}
-
-@media only screen and (max-width: 600px){
-  .custom_nav {
-    /* background-color: red; */
-  }
-}
-
-@media only screen and (min-width: 599px){
-  .custom_nav {
-    /* background-color: green; */
-    display: flex;
-    flex-wrap: wrap;
-
-  }
-}
-
-/* Custom NavBar End */
 
 .spotify-green {
     color:#1DB954;

@@ -6,16 +6,16 @@ from .models import User
 import bcrypt
 from datetime import datetime, timedelta
 
-# Public Page: Localhost:8000/public
-def public(request): 
-    return render(request, 'login_app/public.html')
-
 # Landing Page: Localhost:8000/
 def index(request):
     context = {
         'logged_in_users' : User.objects.all()
     }
     return render(request, "login_app/index.html", context)
+
+# Login Page: Localhost:8000/login
+def pre_login(request):
+    return render(request, "login_app/login.html")
 
 #Register User: Localhost:8000/register
 def register(request):
@@ -47,7 +47,7 @@ def register(request):
 
 #Login User: Localhost:8000/login 
 def login(request):
-
+    print("You hit the login request!")
     #Validation Check
     errors = User.objects.login_validator(request.POST)
 
@@ -82,11 +82,7 @@ def dashboard(request):
     if not 'active_user' in request.session:
         return redirect('/')
 
-    # context = {
-    #     'logged_in_user_obj' : User.objects.get(id=request.session['active_user']),
-    # }
     return redirect("/notes")
-    # return render(request, "notes_app/dashboard.html", context)
 
 #Logout User: Localhost:8000/logout
 def logout(request):

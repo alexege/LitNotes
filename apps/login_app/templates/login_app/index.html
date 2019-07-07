@@ -6,79 +6,68 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load staticfiles %}
     <!-- <link rel="stylesheet" href="{% static 'login_app/css/Log.css' %}"> -->
-    <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
+    <link rel="stylesheet" href="{% static 'login_app\css\style.css' %}">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
-    <title>Login/Registration</title>
+    <title>Lit Notes</title>
 </head>
-<body>
-    <div class="login-container">
-        <form action="/register" method="POST">
-            {% csrf_token %}
-            <table class="registration-table ">
-                <tr>
-                    <td colspan=2>
-                        <h3 class="title">Registration</h3>
-                    </td>
-                </tr>    
-                <tr>
-                    <td>
-                        <label for="first_name">First Name</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Enter your first name here.">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="last_name">Last Name</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Enter your last name here.">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="email">Email</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="email" name="email" id="email" placeholder="Enter your email here.">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="password">Password</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password here.">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="confirmation_password">Confirm Password</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="password" name="confirmation_password" id="confirmation_password" placeholder="Enter your confirmation password here.">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan=2>
-                        <button class="btn btn-success">Register</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+<body style="background-color: red;">
+    <!-- <div class="container">
+        <div class="header">
+            <video src="static\notes_app\images\lit_notes.mp4" autoplay="true" loop="true"></video>
+        </div>
+    </div> -->
+<div class="overlay"></div>
+<div class="center-login-box">
+    <form action="/login" method="POST">
+        {% csrf_token %}
+        <table class="login-table">
+            <tr>
+                <td colspan="2">
+                    <div class="logo-container">
+                    <img src="{% static '\login_app\images\SNLogo2.png' %}" class="logo">
+                    <h1 class="brand">Slick Notes</h1>
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" id="email" name="email" placeholder="Email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="login-button"><a href="#">Login</a></button>
+                </td>
+            </tr>
+            <tr class="new_user">
+                <td colspan=2>New user? <a href="pre_login">Register here</a></td>
+            </tr>
+        </table>
+    </form>
+    <div class="corner corner-top-left"></div>
+    <div class="corner corner-top-right"></div>
+    <div class="corner corner-bottom-left"></div>
+    <div class="corner corner-bottom-right"></div>
+</div>    
 
-        <!-- Validation Check -->
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <p{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</p>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-</div>
-</div>
+<!-- </div> -->
+<script>
+
+// Hover
+$(".center-login-box").hover(function(){
+  $(".corner").animate({height: "250px", width: "250px"});
+}, function(){
+  $(".corner").animate({height: "50px", width: "50px"});
+});
+
+</script>
 </body>
 </html>
