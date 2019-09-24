@@ -159,7 +159,7 @@
             {% endfor %}
             <form action="append_note/{{note.id}}" method="POST">
               {% csrf_token %}
-              <textarea class="form-control text_area" rows="5" name="new_subnote_text"></textarea>
+              <textarea class="form-control text_area" rows="1" name="new_subnote_text"></textarea>
               <button class="submit_button">Add Note</button>
             </form>
           </ul>
@@ -212,6 +212,10 @@
 </div>
     
 <script>
+
+// // Change color of category
+// var randomColor = "#"+((1<<24)*Math.random()|0).toString(16); 
+// document.documentElement.style.setProperty('primary-color', randomColor);
 
 // Toggle add note button
 function toggle_new_note() {
@@ -300,3 +304,5 @@ function openNav() {
 </div>
 </body>
 </html>
+
+<!-- findByIdAndUpdate -->

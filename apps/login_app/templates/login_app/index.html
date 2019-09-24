@@ -11,9 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
-    <title>Lit Notes</title>
+    <title>Slick Notes</title>
 </head>
-<body style="background-color: red;">
+<body>
+
     <!-- <div class="container">
         <div class="header">
             <video src="static\notes_app\images\lit_notes.mp4" autoplay="true" loop="true"></video>
@@ -27,7 +28,8 @@
             <tr>
                 <td colspan="2">
                     <div class="logo-container">
-                    <img src="{% static '\login_app\images\SNLogo2.png' %}" class="logo">
+                    <img src="{% static '\login_app\images\SNLogo3.png' %}" class="logo"> 
+                    <img src="{% static '\login_app\images\SNLogo4.png' %}" class="logo-rotate"> 
                     <h1 class="brand">Slick Notes</h1>
                 </div>
                 </td>
@@ -58,14 +60,13 @@
     <div class="corner corner-bottom-right"></div>
 </div>    
 
-<!-- </div> -->
 <script>
 
 // Hover
 $(".center-login-box").hover(function(){
-  $(".corner").animate({height: "250px", width: "250px"});
+  $(".corner").stop().animate({height: "250px", width: "250px"});
 }, function(){
-  $(".corner").animate({height: "50px", width: "50px"});
+  $(".corner").stop().animate({height: "50px", width: "50px"});
 });
 
 </script>
