@@ -538,11 +538,8 @@ input:checked + .slider:before {
 .add_notes_table {
   margin: 0 auto;
   margin-top: 10px;
-  width: 1200px;
-  /* width: 1200px; */
-  /* background: rgb(66, 135, 245, 0.5); */
   background: var(--heading-color);
-  border-radius: 20px;
+  /* border-radius: 20px; */
   text-align: center;
 }
 

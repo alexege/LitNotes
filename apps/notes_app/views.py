@@ -89,7 +89,7 @@ def update_note(request):
 #Delete Note
 def delete_note(request, id):
     print("[Localhost:8000/delete_note/]---Deleting a note in the Note database---")
-    Note.objects.filter(id=id).delete()
+    Note.objects.get(id=id).delete()
     # Category.objects.filter(id=id).delete()
     return redirect('/dashboard')
 

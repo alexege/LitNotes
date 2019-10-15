@@ -25,7 +25,7 @@ class UserManager(models.Manager):
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = 'Email must be of valid format'
         if not User.objects.filter(email=postData['email']):
-            errors['email'] = "Email address not recognized, please register if you haven't already done so."
+            errors['email'] = "Email address not recognized."
         # if not User.objects.filter(password=postData['password']):
         #     errors['password'] = "Invalid password, please try again."
         if len(postData['password']) < 8:

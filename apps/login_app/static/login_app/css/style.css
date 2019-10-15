@@ -154,8 +154,9 @@ body {
 }
 
 /* Validation */
-.text-success {
+.validation-error {
   color: red;
+  font-size: 12px;
 }
 
 input.middle:focus {

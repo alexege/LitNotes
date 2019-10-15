@@ -11,11 +11,11 @@ def index(request):
     context = {
         'logged_in_users' : User.objects.all()
     }
-    return render(request, "login_app/index.html", context)
+    return render(request, "login_app/login.html", context)
 
 # Login Page: Localhost:8000/login
 def pre_login(request):
-    return render(request, "login_app/login.html")
+    return render(request, "login_app/register.html")
 
 #Register User: Localhost:8000/register
 def register(request):
